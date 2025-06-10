@@ -3,6 +3,8 @@ package member;
 import java.sql.Connection;
 import java.sql 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
 
 public class MemberDAO {
 
@@ -10,7 +12,7 @@ public class MemberDAO {
 	PreparedStatement pstmt;
 	
 	final String JDBC_DRIVER = "org.h2.Driver";
-	final string JDBC_URL = "jdbc:h2:tcp://localhost/~/test";
+	final String JDBC_URL = "jdbc:h2:tcp://localhost/~/test";
 	
 	public void open() {
 		try {
@@ -36,7 +38,19 @@ public class MemberDAO {
 	// 모든 회원들의 정보를 리턴하는 부분
 	oepn ();
 	try {
-		pstmt = conn.preparestatement(")
+		pstmt = conn.preparestatement("SELECT * from members");
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+		    Member m = new Member();
+		    m.setId(rs.getInt("id"));
+		    m.setUsername(rs.getString("username"));
+		    m.setCompany(rs.getString("company"));
+		    m.setBirthday(rs.getDate("birthday"));
+		    m.setEmail(rs.getString("email"));
+		
+		    memberlist.add(m);
+		
 	}catch(Exception e) {
 		
 	}finally {
@@ -45,7 +59,7 @@ public class MemberDAO {
 	  return memberlist;
 	}
 	
-	public void insert() {
-		
+	public void insert(Member m) {
+		// 새로운 회원을 회원테이블에 집어넣기
 	}
 }
